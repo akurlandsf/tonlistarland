@@ -144,8 +144,11 @@ section[hidden],.view[hidden]{display:none!important}
 .pp{width:46px;height:46px;border-radius:50%;border:0;background:var(--yellow);cursor:pointer;display:flex;align-items:center;justify-content:center}
 .pp .i-play{margin-left:4px;border-left:15px solid #1d2b45;border-top:10px solid transparent;border-bottom:10px solid transparent}
 .pp .i-pause{width:14px;height:16px;border-left:5px solid #1d2b45;border-right:5px solid #1d2b45}
-.bar{width:100%;height:10px;border-radius:5px;background:#33415a;overflow:hidden;min-width:0}
-.bar i{display:block;height:100%;width:0;background:#f5bf2a;border-radius:5px}
+.bar{position:relative;width:100%;min-width:0;height:28px;cursor:pointer;touch-action:none;display:flex;align-items:center}
+.bar::before{content:"";position:absolute;left:0;right:0;height:12px;border-radius:6px;background:#33415a}
+.bar i{position:relative;display:block;height:12px;width:0;background:#f5bf2a;border-radius:6px}
+.bar b{position:absolute;top:50%;width:22px;height:22px;margin:-11px 0 0 -11px;border-radius:50%;background:#f5bf2a;box-shadow:0 0 0 3px #0f1a2b;left:0}
+.bar:focus-visible{outline:3px solid #f5bf2a;outline-offset:2px;border-radius:6px}
 .time{font:500 .9rem var(--body);font-variant-numeric:tabular-nums;color:#c9d4e3;white-space:nowrap}
 .empty{min-height:110px;max-width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#c9d4e3;text-align:center;padding:20px}
 .empty b{font:800 1.3rem var(--display);color:#fff}
@@ -321,22 +324,26 @@ footer .wrap{align-items:center}
 <footer><div class="wrap"><span class="foot-brand"><a href="#forsida" aria-label="Tónlistarland, forsíða"><img src="img/logo-litid.png" alt="" width="251" height="180"></a>© 2026 Tónlistarland sf. · Mosfellsbæ</span><span><a href="#hofundur">Um höfundinn</a> · <a href="https://www.facebook.com/profile.php?id=100086174298306" target="_blank" rel="noopener">Facebook</a> · tonlistarland@gmail.com</span></div></footer>
 
 <script>
-/* Lögin. Endanleg slóð hvers lags: tonlistarland.is/1 … /8 */
+/* Lögin. Endanleg slóð hvers lags: tonlistarland.is/itl/1 … /itl/8 */
 const SONGS=[
   {t:"Tals vals",c:"blue"},{t:"Hjá afa og ömmu",c:"red"},{t:"Jógasöngur",c:"yellow"},{t:"Fjóla og Axel",c:"purple"},
   {t:"Polka partý",c:"teal"},{t:"Bókasafnsdúettinn",c:"red"},{t:"Hemíóla frænka",c:"blue"},{t:"Lokasöngur",c:"purple"}];
 /* Myndasýning: hljóðskrá + myndir með upphafstíma í sekúndum. Lag 1 er prufa með bráðabirgðaefni. */
 /* Myndasýningar. Úr töflunum „Lög og lengd“: [mynd, byrjun, endir, innfelling] í sekúndum. Útfelling (fo) á við síðustu mynd. */
-function show(i,file,rows,fo,cap){
+function show(i,file,rows,lastFo,cap){
   const s=SONGS[i];
   s.audio="hljod/"+file;
-  s.slides=rows.map(([n,a,b,fi])=>({src:`img/lag${i+1}/${n}.jpg`,a,b,fi:fi??1.5,fo}));
+  s.slides=rows.map(([n,a,b,fi,fo],k)=>({src:`img/lag${i+1}/${n}.jpg`,a,b,fi:fi??1.5,fo:fo??(k===rows.length-1?lastFo:1.5)}));
   s.caption={text:cap[0],a:0,b:cap[1]};
 }
 show(0,"1-tals-vals.mp3",[[1,0,8,5],[2,8,16],[3,16,30],[4,30,45],[5,45,60],[6,60,76],[7,76,91],[3,91,108],[4,108,122],[2,122,137],[5,137,152],[7,152,167],[8,167,198],[1,198,213,3]],5,["Tals vals",6]);
 show(1,"2-hja-afa-og-ommu.mp3",[[1,0,34,10],[2,34,75],[3,75,109],[1,109,132],[4,132,174],[5,174,185],[6,185,202],[7,202,214.5]],1.5,["Hjá afa og ömmu",6]);
 show(3,"4-fjola-og-axel.mp3",[[1,0,3],[2,3,17],[1,17,28],[2,28,36],[1,36,48],[3,48,58],[4,58,75],[5,75,78]],1.5,["Fjóla og Axel",3]);
 show(4,"5-polka-party.mp3",[[1,0,17,8],[2,17,23],[3,23,36],[4,36,46],[5,46,53],[6,53,67],[7,67,74],[2,74,81],[3,81,86],[5,86,100],[7,100,108.6]],1.5,["Polka partý",3]);
+show(2,"3-jogasongur.mp3",[[1,0,9,8],[2,9,34],[3,34,50],[2,50,59],[4,59,74,3],[2,74,80,3],[3,80,108]],10,["Jógasöngur",6]);
+show(5,"6-bokasafnsduettinn.mp3",[[1,0,10,3],[2,10,21],[3,21,30],[4,30,41],[5,41,51],[6,51,61],[7,61,72],[1,72,81],[2,81,92],[6,92,101],[5,101,110],[7,110,122],[4,122,132],[8,132,152],[3,152,170],[1,170,177],[2,177,187]],8,["Bókasafnsdúettinn",6]);
+show(6,"7-hemiola-fraenka.mp3",[[1,0,21,7],[2,21,36],[3,36,52],[4,52,68],[5,68,84],[6,84,93],[7,93,100],[1,100,116],[8,116,135,1.5,10],[9,135,146,5]],1.5,["Hemíóla frænka",6]);
+show(7,"8-lokasongur.mp3",[[1,0,24,5],[2,24,52],[3,52,59],[4,59,72],[5,72,88],[3,88,102],[6,102,111],[7,111,134],[8,134,143],[6,143,152],[3,152,164],[2,164,173],[9,173,181],[10,181,189],[11,189,197],[12,197,203]],1.5,["Lokasöngur",6]);
 
 const col=c=>`var(--${c})`, dark=c=>c==="yellow";
 const fmt=s=>{s=Math.max(0,Math.floor(s||0));return Math.floor(s/60)+":"+String(s%60).padStart(2,"0")};
@@ -356,12 +363,12 @@ function makePlayer(s){
      ${s.caption?`<div class="caption">${s.caption.text}</div>`:""}
      <button class="bigplay" aria-label="Spila ${s.t}"></button></div>
    <div class="controls"><button class="pp" aria-label="Spila"><span class="i-play"></span></button>
-     <div class="bar" role="progressbar" aria-label="Framvinda í ${s.t}" aria-valuemin="0" aria-valuemax="100"><i></i></div>
+     <div class="bar" role="slider" tabindex="0" aria-label="Staðsetning í ${s.t}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i></i><b></b></div>
      <span class="time">0:00</span></div>`;
   const audio=new Audio(s.audio); audio.preload="metadata";
   const imgEl={}; box.querySelectorAll(".stage img").forEach((el,i)=>imgEl[uniq[i]]=el);
   const cap=box.querySelector(".caption"), big=box.querySelector(".bigplay"), pp=box.querySelector(".pp"), bar=box.querySelector(".bar"), tm=box.querySelector(".time");
-  let started=false, raf=0, tail=0; const fill=bar.firstElementChild;
+  let started=false, raf=0, tail=0, drag=false; const fill=bar.firstElementChild, knob=bar.lastElementChild;
   const ramp=(t,a,b,fi,fo)=>{ if(t<a||t>=b) return 0; let o=1; if(fi>0&&t<a+fi) o=Math.min(o,(t-a)/fi); if(fo>0&&t>b-fo) o=Math.min(o,(b-t)/fo); return Math.max(0,o) };
   const clamp=v=>Math.max(0,Math.min(1,v)), ease=v=>{v=clamp(v);return v*v*(3-2*v)};
   /* Mjúk víxlun: ný mynd dofnar inn ofan á fyrri mynd, sem helst þar til sú nýja er komin alveg. */
@@ -372,16 +379,24 @@ function makePlayer(s){
       const k=s.slides.findIndex(x=>t>=x.a&&t<x.b);
       if(k>=0){
         const x=s.slides[k], last=k===s.slides.length-1;
+        const hard=y=>y===s.slides[s.slides.length-1]||y.fo>1.5;
         let o=ease((t-x.a)/x.fi);
-        if(last) o=Math.min(o,ease((x.b-t)/x.fo));
-        if(k>0 && t<x.a+x.fi){ const pv=s.slides[k-1]; if(pv.src!==x.src){ op[pv.src]=1; z[pv.src]=1 } }
+        if(hard(x)) o=Math.min(o,ease((x.b-t)/x.fo));
+        if(k>0 && t<x.a+x.fi){ const pv=s.slides[k-1]; if(pv.src!==x.src&&!hard(pv)){ op[pv.src]=1; z[pv.src]=1 } }
         op[x.src]=Math.max(op[x.src],o); z[x.src]=2;
       }
     }
     uniq.forEach(u=>{imgEl[u].style.opacity=op[u]; imgEl[u].style.zIndex=z[u]});
     if(cap){ const c=s.caption; cap.style.opacity=!started?1:Math.min(ease((t-c.a)/1.5),ease((c.b-t)/1.5)) }
   }
-  const sync=()=>{ const d=audio.duration||0, pc=d?audio.currentTime/d*100:0; fill.style.width=pc+"%"; bar.setAttribute("aria-valuenow",Math.round(pc)); tm.textContent=fmt(audio.currentTime)+" / "+fmt(d); paint(audio.currentTime) };
+  const draw=(t,d)=>{ const pc=d?Math.min(100,t/d*100):0; fill.style.width=pc+"%"; knob.style.left=pc+"%"; bar.setAttribute("aria-valuenow",Math.round(pc)); bar.setAttribute("aria-valuetext",fmt(t)); tm.textContent=fmt(t)+" / "+fmt(d); paint(t) };
+  const sync=()=>{ if(!drag) draw(audio.currentTime,audio.duration||0) };
+  const seekTo=t=>{ const d=audio.duration||0; if(!d) return; t=Math.max(0,Math.min(d-0.05,t)); cancelAnimationFrame(tail); started=true; audio.currentTime=t; draw(t,d) };
+  const at=e=>{ const r=bar.getBoundingClientRect(); return (e.clientX-r.left)/r.width*(audio.duration||0) };
+  bar.addEventListener("pointerdown",e=>{ drag=true; bar.setPointerCapture(e.pointerId); seekTo(at(e)) });
+  bar.addEventListener("pointermove",e=>{ if(drag) seekTo(at(e)) });
+  const up=()=>{ drag=false }; bar.addEventListener("pointerup",up); bar.addEventListener("pointercancel",up);
+  bar.addEventListener("keydown",e=>{ const st={ArrowRight:5,ArrowLeft:-5,ArrowUp:5,ArrowDown:-5}[e.key]; if(st){ e.preventDefault(); seekTo(audio.currentTime+st) } else if(e.key==="Home"){ e.preventDefault(); seekTo(0) } });
   const loop=()=>{ sync(); if(!audio.paused) raf=requestAnimationFrame(loop) };
   const icon=()=>{ const p=!audio.paused; pp.innerHTML=p?'<span class="i-pause"></span>':'<span class="i-play"></span>'; pp.setAttribute("aria-label",p?"Gera hlé":"Spila"); big.hidden=p };
   const toggle=()=>{ if(audio.paused){ players.forEach(a=>a!==audio&&a.pause()); box.querySelectorAll(".stage img").forEach(i=>i.loading="eager"); started=true; audio.play().catch(()=>{}) } else audio.pause() };
@@ -408,7 +423,7 @@ const stopAll=()=>players.forEach(a=>a.pause());
 const list=document.getElementById("songList");
 SONGS.forEach((s,i)=>{
   const li=document.createElement("li"); li.id="lag-"+(i+1);
-  li.innerHTML=`<div class="song-title">${numHTML(i,s)}<h3><a href="#${i+1}">${s.t}</a></h3><span class="permalink">tonlistarland.is/${i+1}</span></div>`;
+  li.innerHTML=`<div class="song-title">${numHTML(i,s)}<h3><a href="#${i+1}">${s.t}</a></h3><span class="permalink">tonlistarland.is/itl/${i+1}</span></div>`;
   li.appendChild(makePlayer(s)); list.appendChild(li);
 });
 
@@ -426,9 +441,9 @@ const dd=document.getElementById("dd"), topEl=document.getElementById("top");
 let songBox=null;
 function route(){
   stopAll(); if(songBox&&songBox._audio){players.delete(songBox._audio)} songBox=null;
-  /* tonlistarland.is/1 … /8 (QR-kóðar) opna lagið beint */
-  const pm=location.pathname.match(/^\/([1-8])\/?$/);
-  let id=location.hash.slice(1)||(pm?pm[1]:"forsida");
+  /* tonlistarland.is/itl/1 … /itl/8 (QR-kóðar) opna lagið beint; /itl opnar öll lögin */
+  const pm=location.pathname.match(/^\/itl(?:\/([1-8]))?\/?$/i);
+  let id=location.hash.slice(1)||(pm?(pm[1]||"login"):"forsida");
   const n=/^[1-8]$/.test(id)?+id:0;
   if(!n && !views.includes(id)) id="forsida";
   document.querySelectorAll(".view").forEach(v=>v.hidden=true);
