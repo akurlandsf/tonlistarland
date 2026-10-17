@@ -6,11 +6,20 @@
 <base href="/">
 <title>Tónlistarland</title>
 <meta name="description" content="Í Tónlistarlandi – saga og tónlist eftir Lilju Eggertsdóttur. Hlustaðu á lögin átta úr bókinni.">
+<meta name="theme-color" content="#d6ecfa">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Tónlistarland">
 <meta property="og:title" content="Tónlistarland">
 <meta property="og:description" content="Í Tónlistarlandi – saga og tónlist eftir Lilju Eggertsdóttur.">
-<meta property="og:image" content="https://tonlistarland.is/img/kapa.jpg">
+<meta property="og:image" content="https://tonlistarland.is/img/deila.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Tónlistarland">
 <meta property="og:url" content="https://tonlistarland.is/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tonlistarland.is/img/deila.jpg">
 <link rel="icon" type="image/png" href="/img/logo-litid.png">
+<link rel="apple-touch-icon" href="/img/logo-litid.png">
 <style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body>
@@ -153,13 +162,35 @@ section[hidden],.view[hidden]{display:none!important}
 .empty{min-height:110px;max-width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#c9d4e3;text-align:center;padding:20px}
 .empty b{font:800 1.3rem var(--display);color:#fff}
 
+/* ---- Lagaspjöld (sími og spjaldtölva) ---- */
+.cards{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,160px),1fr));gap:16px}
+.card a{display:flex;flex-direction:column;text-decoration:none;color:var(--ink);background:var(--card);border-radius:20px;overflow:hidden;border:3px solid var(--c);box-shadow:0 5px 0 var(--c);transition:transform .1s,box-shadow .1s}
+.card a:active{transform:translateY(3px);box-shadow:0 2px 0 var(--c)}
+.card .thumb{position:relative;display:block;aspect-ratio:4/3;max-width:100%;background:#fff;overflow:hidden}
+.card .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.card .thumb .num{position:absolute;left:8px;top:8px;width:40px;font-size:1.25rem;box-shadow:0 2px 0 rgba(0,0,0,.2)}
+.card .thumb .go{position:absolute;right:8px;bottom:8px;width:44px;height:44px;border-radius:50%;background:var(--yellow);display:flex;align-items:center;justify-content:center;box-shadow:0 3px 0 rgba(0,0,0,.25)}
+.card .thumb .go::after{content:"";margin-left:4px;border-left:15px solid #1d2b45;border-top:10px solid transparent;border-bottom:10px solid transparent}
+.card .name{display:block;font:800 clamp(1rem,2.4vw,1.15rem)/1.15 var(--display);padding:10px 12px 12px;text-wrap:balance;hyphens:manual}
+.card .soon-tag{display:block;font:600 .8rem var(--body);color:var(--ink-soft);padding:0 12px 10px;margin-top:-6px}
+
+/* ---- Fullur skjár ---- */
+.fs{width:46px;height:46px;border-radius:12px;border:0;background:#33415a;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.fs[hidden]{display:none}
+.controls.has-fs{grid-template-columns:auto 1fr auto auto}
+.player:fullscreen{display:flex;flex-direction:column;max-width:none;width:100vw;height:100vh;border-radius:0;background:#000}
+.player:fullscreen .stage{flex:1;aspect-ratio:auto}
+.player:-webkit-full-screen{display:flex;flex-direction:column;max-width:none;width:100vw;height:100vh;border-radius:0;background:#000}
+.player:-webkit-full-screen .stage{flex:1;aspect-ratio:auto}
+
 /* ---- Lagasíða (QR) ---- */
 .song-page{padding-block:16px 64px;max-width:880px}
 .song-head{display:flex;align-items:center;gap:14px;margin-bottom:14px}
 .song-head .num{width:52px;font-size:1.5rem}
 .song-head h1{font-size:clamp(1.8rem,6vw,2.6rem);color:var(--ink)}
 .song-nav{display:flex;justify-content:space-between;gap:10px;margin-top:20px;flex-wrap:wrap}
-.song-nav a{font:700 1.05rem var(--display);text-decoration:none;padding:8px 16px;border-radius:999px;background:var(--card);color:var(--ink)}
+.song-nav a{font:800 1.1rem var(--display);text-decoration:none;padding:12px 18px;border-radius:999px;background:var(--card);color:var(--ink);border:3px solid var(--line);min-height:48px;display:flex;align-items:center;justify-content:center;gap:6px}
+.song-nav a:active{transform:translateY(2px)}
 .demo{font-size:.85rem;color:var(--ink-soft);margin-top:10px}
 
 /* ---- Höfundur ---- */
@@ -200,6 +231,37 @@ footer .wrap{align-items:center}
   nav.tabs{gap:5px}
   .welcome img{max-width:72%}
   .welcome span{font-size:1.3rem}
+}
+a,button,summary,.bar{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+@media (pointer:coarse){
+  .pp{width:56px;height:56px}
+  .pp .i-play{border-left-width:18px;border-top-width:12px;border-bottom-width:12px}
+  .pp .i-pause{width:16px;height:20px;border-left-width:6px;border-right-width:6px}
+  .fs{width:52px;height:52px}
+  .bar{height:44px}
+  .bar b{width:30px;height:30px;margin:-15px 0 0 -15px}
+  .bigplay{width:104px;height:104px}
+  .bigplay::after{border-left-width:36px;border-top-width:23px;border-bottom-width:23px;margin-left:10px}
+  .dd-panel a{padding:12px 10px;font-size:1.05rem}
+  .dd-panel a b{width:34px;height:34px;font-size:1.1rem}
+}
+/* Sími: spilarinn nær út að brúnum svo myndirnar verði sem stærstar */
+@media (max-width:600px){
+  body{font-size:17px}
+  .song-page{padding-top:10px}
+  .song-head{margin-bottom:10px;gap:10px}
+  .song-head .num{width:44px;font-size:1.3rem}
+  .song-head h1{font-size:1.75rem}
+  #sPlayer .player{border-radius:0;margin-left:calc(-1 * max(16px,env(safe-area-inset-left,0px)));margin-right:calc(-1 * max(16px,env(safe-area-inset-right,0px)));width:auto;max-width:none;min-width:0}
+  .controls{padding:10px max(14px,env(safe-area-inset-right,0px)) 12px max(14px,env(safe-area-inset-left,0px));gap:12px}
+  .time{font-size:.85rem}
+}
+/* Sími á hlið: spilarinn fyllir skjáhæðina */
+@media (orientation:landscape) and (max-height:560px){
+  .top{position:static}
+  .song-head{display:none}
+  .song-page{padding-top:8px}
+  .player{max-width:min(100%,calc((100svh - 80px) * 4 / 3))!important;margin-left:auto!important;margin-right:auto!important;border-radius:16px!important}
 }
 @media (prefers-reduced-motion:no-preference){
   .welcome img{animation:bob 6s ease-in-out infinite}
@@ -328,8 +390,8 @@ footer .wrap{align-items:center}
 const SONGS=[
   {t:"Tals vals",c:"blue"},{t:"Hjá afa og ömmu",c:"red"},{t:"Jógasöngur",c:"yellow"},{t:"Fjóla og Axel",c:"purple"},
   {t:"Polka partý",c:"teal"},{t:"Bókasafnsdúettinn",c:"red"},{t:"Hemíóla frænka",c:"blue"},{t:"Lokasöngur",c:"purple"}];
-/* Myndasýning: hljóðskrá + myndir með upphafstíma í sekúndum. Lag 1 er prufa með bráðabirgðaefni. */
-/* Myndasýningar. Úr töflunum „Lög og lengd“: [mynd, byrjun, endir, innfelling] í sekúndum. Útfelling (fo) á við síðustu mynd. */
+/* Myndasýningar úr töflum Lilju („Lag og lengd“): [mynd, byrjun, endir, innfelling, útfelling] í sekúndum.
+   Útfelling lengri en 1,5 s (og á síðustu mynd) dofnar út í hvítt; annars víxlast myndirnar mjúklega. */
 function show(i,file,rows,lastFo,cap){
   const s=SONGS[i];
   s.audio="hljod/"+file;
@@ -364,7 +426,8 @@ function makePlayer(s){
      <button class="bigplay" aria-label="Spila ${s.t}"></button></div>
    <div class="controls"><button class="pp" aria-label="Spila"><span class="i-play"></span></button>
      <div class="bar" role="slider" tabindex="0" aria-label="Staðsetning í ${s.t}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i></i><b></b></div>
-     <span class="time">0:00</span></div>`;
+     <span class="time">0:00</span>
+     <button class="fs" hidden aria-label="Fylla skjáinn"><svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><path d="M2 8V2h6M14 2h6v6M20 14v6h-6M8 20H2v-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>`;
   const audio=new Audio(s.audio); audio.preload="metadata";
   const imgEl={}; box.querySelectorAll(".stage img").forEach((el,i)=>imgEl[uniq[i]]=el);
   const cap=box.querySelector(".caption"), big=box.querySelector(".bigplay"), pp=box.querySelector(".pp"), bar=box.querySelector(".bar"), tm=box.querySelector(".time");
@@ -401,8 +464,26 @@ function makePlayer(s){
   const icon=()=>{ const p=!audio.paused; pp.innerHTML=p?'<span class="i-pause"></span>':'<span class="i-play"></span>'; pp.setAttribute("aria-label",p?"Gera hlé":"Spila"); big.hidden=p };
   const toggle=()=>{ if(audio.paused){ players.forEach(a=>a!==audio&&a.pause()); box.querySelectorAll(".stage img").forEach(i=>i.loading="eager"); started=true; audio.play().catch(()=>{}) } else audio.pause() };
   big.onclick=toggle; pp.onclick=toggle;
-  audio.addEventListener("play",()=>{icon();cancelAnimationFrame(raf);loop()});
-  audio.addEventListener("pause",()=>{icon();sync()});
+  /* Fullur skjár (spjaldtölvur og Android; iPhone styður það ekki fyrir síðuhluta) */
+  const fsBtn=box.querySelector(".fs"), canFs=!!(box.requestFullscreen||box.webkitRequestFullscreen);
+  if(canFs){ fsBtn.hidden=false; box.querySelector(".controls").classList.add("has-fs");
+    fsBtn.onclick=()=>{ const on=document.fullscreenElement||document.webkitFullscreenElement;
+      if(on){ (document.exitFullscreen||document.webkitExitFullscreen).call(document) }
+      else { const r=(box.requestFullscreen||box.webkitRequestFullscreen).call(box); if(r&&r.catch) r.catch(()=>{}) } } }
+  /* Skjárinn slokknar ekki meðan lag spilar */
+  let lock=null;
+  const keepAwake=async()=>{ try{ if("wakeLock" in navigator && !lock){ lock=await navigator.wakeLock.request("screen"); lock.addEventListener("release",()=>{lock=null}) } }catch(e){} };
+  const letSleep=()=>{ try{ lock&&lock.release() }catch(e){} lock=null };
+  /* Lag og mynd á lásskjá og í stjórnborði símans */
+  const media=()=>{ if(!("mediaSession" in navigator)) return; try{
+    navigator.mediaSession.metadata=new MediaMetadata({title:s.t,artist:"Lilja Eggertsdóttir",album:"Í Tónlistarlandi",artwork:[{src:new URL(s.slides[0].src,document.baseURI).href,sizes:"1024x768",type:"image/jpeg"}]});
+    navigator.mediaSession.setActionHandler("play",()=>audio.play().catch(()=>{}));
+    navigator.mediaSession.setActionHandler("pause",()=>audio.pause());
+    navigator.mediaSession.setActionHandler("seekto",d=>seekTo(d.seekTime));
+  }catch(e){} };
+  audio.addEventListener("play",()=>{icon();cancelAnimationFrame(raf);loop();keepAwake();media()});
+  audio.addEventListener("pause",()=>{icon();sync();letSleep()});
+  document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible"&&!audio.paused) keepAwake() });
   audio.addEventListener("loadedmetadata",sync);
   /* Ef síðasta myndin á að standa lengur en lagið, klárast útfellingin eftir að lagið endar. */
   const reset=()=>{audio.currentTime=0;started=false;icon();sync()};
@@ -419,9 +500,15 @@ function makePlayer(s){
 }
 const stopAll=()=>players.forEach(a=>a.pause());
 
-// Lagasíða: öll lögin hvert undir öðru
+// Lagasíða. Í síma og spjaldtölvu: stór myndaspjöld sem opna hvert lag. Í tölvu: öll lögin með spilara.
 const list=document.getElementById("songList");
-SONGS.forEach((s,i)=>{
+const compact=matchMedia("(max-width:1023px), (pointer:coarse)").matches;
+if(compact){
+  list.className="cards";
+  list.innerHTML=SONGS.map((s,i)=>`<li class="card"><a href="#${i+1}" style="--c:${col(s.c)}">
+    <span class="thumb">${s.slides?`<img src="${s.slides[0].src}" alt="" loading="lazy">`:""}${numHTML(i,s)}<span class="go" aria-hidden="true"></span></span>
+    <span class="name">${s.t.replace("Bókasafns","Bókasafns&shy;")}</span>${s.audio?"":'<span class="soon-tag">Kemur fljótlega</span>'}</a></li>`).join("");
+} else SONGS.forEach((s,i)=>{
   const li=document.createElement("li"); li.id="lag-"+(i+1);
   li.innerHTML=`<div class="song-title">${numHTML(i,s)}<h3><a href="#${i+1}">${s.t}</a></h3><span class="permalink">tonlistarland.is/itl/${i+1}</span></div>`;
   li.appendChild(makePlayer(s)); list.appendChild(li);
@@ -457,10 +544,13 @@ function route(){
     document.getElementById("sDemo").textContent=s.placeholder?"Prufa: myndir og tímasetningar eru réttar en hljóðið vantar enn. Myndirnar skiptast eftir tímasetningunum.":"";
     const p=document.getElementById("sPrev"), x=document.getElementById("sNext");
     p.href="#"+(n>1?n-1:8); p.textContent="← "+SONGS[(n+6)%8].t; x.href="#"+(n<8?n+1:1); x.textContent=SONGS[n%8].t+" →";
+    p.setAttribute("aria-label","Fyrra lag: "+SONGS[(n+6)%8].t); x.setAttribute("aria-label","Næsta lag: "+SONGS[n%8].t);
   } else document.getElementById("v-"+id).hidden=false;
   document.querySelectorAll(".tab").forEach(a=>a.getAttribute("href")==="#"+id?a.setAttribute("aria-current","page"):a.removeAttribute("aria-current"));
   dd.classList.toggle("cur",!!n||id==="login"); dd.open=false;
-  window.scrollTo(0,0);
+  /* Sími á hlið: spilarinn birtist strax í heild sinni */
+  if(n && matchMedia("(orientation:landscape) and (max-height:560px)").matches) requestAnimationFrame(()=>document.getElementById("sPlayer").scrollIntoView({block:"start"}));
+  else window.scrollTo(0,0);
 }
 document.addEventListener("click",e=>{ if(!dd.contains(e.target)) dd.open=false });
 addEventListener("hashchange",route); route();
