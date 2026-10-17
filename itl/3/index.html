@@ -218,7 +218,7 @@ footer .wrap{align-items:center}
   .permalink{display:none}
   .song-nav{display:grid;grid-template-columns:1fr 1fr;gap:8px}
   .song-nav a{text-align:center;font-size:.95rem}
-  .song-nav a[href="#login"]{grid-column:1 / -1;order:3}
+  .song-nav a.all-songs{grid-column:1 / -1;order:3}
   #sNext{order:2}
   .bigplay{width:78px;height:78px}
   .house{height:clamp(120px,38vw,190px)}
@@ -364,7 +364,7 @@ a,button,summary,.bar{touch-action:manipulation;-webkit-tap-highlight-color:tran
     <div class="song-head"><span class="num" id="sNum"></span><h1 id="sTitle"></h1></div>
     <div id="sPlayer"></div>
     <p class="demo" id="sDemo"></p>
-    <div class="song-nav"><a id="sPrev" href="#"></a><a href="#login">Öll lögin</a><a id="sNext" href="#"></a></div>
+    <div class="song-nav"><a id="sPrev" href="#"></a><a class="all-songs" href="#login">Öll lögin</a><a id="sNext" href="#"></a></div>
   </section>
 
   <!-- HÖFUNDUR -->
@@ -522,15 +522,26 @@ document.getElementById("qPlus").onclick=()=>{q=Math.min(20,q+1);qo.textContent=
 // Marglitir stafir eins og í merkinu
 document.querySelectorAll(".rb").forEach(el=>{el.setAttribute("aria-label",el.textContent);el.innerHTML=[...el.textContent].map(ch=>`<span aria-hidden="true">${ch}</span>`).join("")});
 
-// Leiðsögn
+// Leiðsögn. Á tonlistarland.is eru hreinar slóðir (/itl/1, /vorur …); í forskoðun eru notuð #-merki.
 const views=["forsida","vorur","login","hofundur"];
+const PATHS=!!document.querySelector('base[href="/"]');
+const pathFor=id=>({forsida:"/",vorur:"/vorur",login:"/itl",hofundur:"/hofundur"})[id]||("/itl/"+id);
+const idFromPath=p=>{ p=p.replace(/\/+$/,"").toLowerCase()||"/";
+  const m=p.match(/^\/itl(?:\/([1-8]))?$/); if(m) return m[1]||"login";
+  return ({"/":"forsida","/vorur":"vorur","/hofundur":"hofundur"})[p]||"forsida" };
+/* Tenglar eru skrifaðir sem #id í kóðanum; hér fá þeir rétta slóð og data-r merkingu */
+function fixLinks(root){ root.querySelectorAll('a[href^="#"]').forEach(a=>{ const id=a.getAttribute("href").slice(1); if(!id) return; a.dataset.r=id; if(PATHS) a.setAttribute("href",pathFor(id)) }) }
+fixLinks(document);
 const dd=document.getElementById("dd"), topEl=document.getElementById("top");
 let songBox=null;
 function route(){
   stopAll(); if(songBox&&songBox._audio){players.delete(songBox._audio)} songBox=null;
-  /* tonlistarland.is/itl/1 … /itl/8 (QR-kóðar) opna lagið beint; /itl opnar öll lögin */
-  const pm=location.pathname.match(/^\/itl(?:\/([1-8]))?\/?$/i);
-  let id=location.hash.slice(1)||(pm?(pm[1]||"login"):"forsida");
+  let id=location.hash.slice(1);
+  if(PATHS){
+    /* Gamlir #-tenglar (t.d. eldri QR-kóðar) fá hreina slóð */
+    if(/^([1-8]|forsida|vorur|login|hofundur)$/.test(id)) history.replaceState(null,"",pathFor(id));
+    id=idFromPath(location.pathname);
+  } else if(!id) id="forsida";
   const n=/^[1-8]$/.test(id)?+id:0;
   if(!n && !views.includes(id)) id="forsida";
   document.querySelectorAll(".view").forEach(v=>v.hidden=true);
@@ -541,19 +552,30 @@ function route(){
     const num=document.getElementById("sNum"); num.textContent=n; num.style.setProperty("--c",col(s.c)); num.classList.toggle("dark",dark(s.c));
     document.getElementById("sTitle").textContent=s.t;
     const slot=document.getElementById("sPlayer"); slot.innerHTML=""; songBox=makePlayer(s); slot.appendChild(songBox);
-    document.getElementById("sDemo").textContent=s.placeholder?"Prufa: myndir og tímasetningar eru réttar en hljóðið vantar enn. Myndirnar skiptast eftir tímasetningunum.":"";
-    const p=document.getElementById("sPrev"), x=document.getElementById("sNext");
-    p.href="#"+(n>1?n-1:8); p.textContent="← "+SONGS[(n+6)%8].t; x.href="#"+(n<8?n+1:1); x.textContent=SONGS[n%8].t+" →";
-    p.setAttribute("aria-label","Fyrra lag: "+SONGS[(n+6)%8].t); x.setAttribute("aria-label","Næsta lag: "+SONGS[n%8].t);
-  } else document.getElementById("v-"+id).hidden=false;
-  document.querySelectorAll(".tab").forEach(a=>a.getAttribute("href")==="#"+id?a.setAttribute("aria-current","page"):a.removeAttribute("aria-current"));
+    document.getElementById("sDemo").textContent="";
+    const p=document.getElementById("sPrev"), x=document.getElementById("sNext"), pn=n>1?n-1:8, nn=n<8?n+1:1;
+    p.setAttribute("href","#"+pn); p.textContent="← "+SONGS[pn-1].t; x.setAttribute("href","#"+nn); x.textContent=SONGS[nn-1].t+" →";
+    p.setAttribute("aria-label","Fyrra lag: "+SONGS[pn-1].t); x.setAttribute("aria-label","Næsta lag: "+SONGS[nn-1].t);
+    fixLinks(document.querySelector(".song-nav"));
+    document.title=s.t+" – Tónlistarland";
+  } else { document.getElementById("v-"+id).hidden=false; document.title="Tónlistarland" }
+  document.querySelectorAll(".tab").forEach(a=>a.dataset.r===id?a.setAttribute("aria-current","page"):a.removeAttribute("aria-current"));
   dd.classList.toggle("cur",!!n||id==="login"); dd.open=false;
   /* Sími á hlið: spilarinn birtist strax í heild sinni */
   if(n && matchMedia("(orientation:landscape) and (max-height:560px)").matches) requestAnimationFrame(()=>document.getElementById("sPlayer").scrollIntoView({block:"start"}));
   else window.scrollTo(0,0);
 }
-document.addEventListener("click",e=>{ if(!dd.contains(e.target)) dd.open=false });
-addEventListener("hashchange",route); route();
+document.addEventListener("click",e=>{
+  if(!dd.contains(e.target)) dd.open=false;
+  const a=e.target.closest("a[data-r]");
+  if(!PATHS||!a||e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey) return;
+  e.preventDefault();
+  if(location.pathname!==a.getAttribute("href")) history.pushState(null,"",a.getAttribute("href"));
+  route();
+});
+addEventListener("popstate",route);
+addEventListener("hashchange",route);
+route();
 </script>
 
 </body>
