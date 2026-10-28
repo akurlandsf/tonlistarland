@@ -127,6 +127,21 @@ section[hidden],.view[hidden]{display:none!important}
 .qty button{width:44px;height:44px;border:0;background:var(--card);color:var(--ink);font:800 1.3rem var(--display);cursor:pointer}
 .qty output{min-width:44px;text-align:center;font:800 1.2rem var(--display);font-variant-numeric:tabular-nums}
 .note{font-size:.92rem;color:var(--ink-soft)}
+.people{margin-top:44px;background:var(--card);border-radius:22px;padding:22px 24px}
+.people h3,.credits h3{font-size:1.35rem;margin:0 0 12px}
+.people dl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 28px;margin:0 0 12px}
+.people dt{font-size:.85rem;color:var(--ink-soft);font-weight:600}
+.people dd{margin:2px 0 0;font-weight:600}
+.credits{margin-top:48px;background:var(--card);border-radius:22px;padding:24px 26px}
+.credits h2{font-size:1.7rem;margin:0 0 18px}
+.credits h3{margin-top:22px}
+.cast,.band{list-style:none;margin:0;padding:0;display:grid;gap:12px 28px;grid-template-columns:repeat(2,minmax(0,1fr))}
+.cast li{display:flex;flex-direction:column;gap:2px}
+.cast b,.band b{font-weight:700}
+.cast span{font-size:.92rem;color:var(--ink-soft);line-height:1.4}
+.band{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px 28px}
+.band li{color:var(--ink-soft)}.band b{color:var(--ink);margin-right:4px}
+.credits .note{margin-top:18px}
 .soon-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:48px}
 .soon{border:3px dashed var(--line);border-radius:22px;padding:20px 22px;display:flex;flex-direction:column;gap:6px}
 
@@ -196,7 +211,7 @@ section[hidden],.view[hidden]{display:none!important}
 /* ---- Höfundur ---- */
 .about{display:grid;grid-template-columns:300px 1fr;gap:44px;align-items:start}
 .about > *{min-width:0}
-.about img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:50% 50% 24px 24px;border:6px solid var(--yellow);display:block}
+.about img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:50% 20%;border-radius:150px 150px 24px 24px;border:6px solid var(--yellow);display:block}
 
 footer{background:var(--grass);color:#fff;padding-block:22px}
 footer .wrap{display:flex;justify-content:space-between;gap:10px 24px;flex-wrap:wrap}
@@ -210,6 +225,8 @@ footer .wrap{align-items:center}
   .author{grid-template-columns:84px 1fr;gap:16px;padding:14px 16px}
   .about img{max-width:240px}
   .soon-grid{grid-template-columns:1fr}
+  .people dl,.cast,.band{grid-template-columns:1fr}
+  .people,.credits{padding:18px 18px}
 }
 @media (max-width:560px){
   .tab,.dd > summary{font-size:1rem;padding:4px 11px}
@@ -309,6 +326,7 @@ a,button,summary,.bar{touch-action:manipulation;-webkit-tap-highlight-color:tran
         <h1 style="font-size:clamp(2rem,4.5vw,2.8rem)">Í Tónlistarlandi</h1>
         <p><strong>Fyndin og fræðandi í senn!</strong> Saga um tvíburana Ti Tí, Hemíólu frænku, frú Fjórðapartsnótu, herra Hálfnótu, afa Heilnótu og fleiri skemmtilega karaktera sem allir eru skapaðir úr fræðiheitum tónfræðinnar.</p>
         <p>Hentar einkum börnum í 1. til 4. bekk. Átta lög fylgja bókinni.</p>
+        <p class="note"><strong>Kemur út í lok nóvember 2026.</strong></p>
         <div class="cta">
           <a class="btn" href="#vorur">Kaupa bókina</a>
           <a class="btn alt" href="#login">Hlusta á lögin</a>
@@ -316,11 +334,11 @@ a,button,summary,.bar{touch-action:manipulation;-webkit-tap-highlight-color:tran
       </div>
     </div>
     <div class="author">
-      <img src="img/lilja.jpg" alt="Lilja Eggertsdóttir" width="800" height="800">
+      <img src="img/lilja-hringur.jpg" alt="Lilja Eggertsdóttir" width="400" height="400">
       <div class="stack" style="gap:8px">
         <span class="eyebrow">Höfundur</span>
         <h2 style="font-size:1.9rem">Lilja Eggertsdóttir</h2>
-        <p>Lilja hefur brallað ýmislegt en vinnur fyrst og fremst sem tónlistarkennari í Mosfellsbæ.</p>
+        <p>Lilja er menntuð í söng og píanóleik og vinnur fyrst og fremst sem píanókennari og meðleikari í Mosfellsbæ.</p>
         <a href="#hofundur">Meira um Lilju</a>
       </div>
     </div>
@@ -334,7 +352,11 @@ a,button,summary,.bar{touch-action:manipulation;-webkit-tap-highlight-color:tran
       <div class="stack">
         <span class="tag-new">Ný bók</span>
         <h3 style="font-size:2rem">Í Tónlistarlandi</h3>
-        <p>Saga og tónlist eftir Lilju Eggertsdóttur. Ævintýraheimur úr tónfræðinni, með fróðleiksmola á hverri opnu og átta lögum sem hlustað er á með QR-kóða.</p>
+        <p><strong>Fyndin og fræðandi í senn!</strong></p>
+        <p>Í Tónlistarlandi er saga sem segir frá tvíburunum Ti Tí, Hemíólu frænku, frú Fjórðapartsnótu (mömmu), herra Hálfnótu (pabba), afa Heilnótu, Þyrí þögn og Þorra þögn og fleiri skemmtilegum karakterum. Markmiðið er að styrkja stærðfræði- og tónfræðivitund barna með skemmtanagildið að leiðarljósi. Til verður ævintýraheimur úr tónfræðinni og persónurnar eru skapaðar úr fræðiheitum.</p>
+        <p>Bókin er bæði fyndin og fræðandi og ætti því að henta ungum sem öldnum, en mun líklega vekja mestan áhuga hjá börnum á fyrsta grunnskólastigi (1. til 4. bekk). Á hverri opnu má finna lítinn fróðleiksmola fyrir þá sem vilja fræðast.</p>
+        <p>Átta lög fylgja bókinni og hægt er að hlýða á þau með því að skanna QR-kóða þegar lesið er.</p>
+        <p><strong>Kemur út í lok nóvember 2026.</strong></p>
         <span style="font:800 1.6rem var(--display);color:var(--red)"><span class="ph">Verð</span></span>
         <div class="buy">
           <div class="qty" role="group" aria-label="Fjöldi">
@@ -347,6 +369,14 @@ a,button,summary,.bar{touch-action:manipulation;-webkit-tap-highlight-color:tran
         <p class="note">Vefverslunin opnar fljótlega. Bókin fæst einnig í völdum bókabúðum, sem verða auglýstar hér.</p>
       </div>
     </article>
+    <div class="people">
+      <h3>Fólkið á bak við bókina</h3>
+      <dl>
+        <div><dt>Handrit, lög, útsetningar og myndskreytingar</dt><dd>Lilja Eggertsdóttir</dd></div>
+        <div><dt>Uppsetning og hönnun</dt><dd>Þóra Dögg Jónsdóttir, grafískur hönnuður<br>Guðlaugur Ingi Harðarson, grafískur miðlari</dd></div>
+      </dl>
+      <p class="note">Flytjendur laganna eru taldir upp á síðunni <a href="#login">Lögin</a>.</p>
+    </div>
     <div class="soon-grid">
       <div class="soon"><span class="eyebrow">Væntanlegt</span><h3>Lærum að spila á píanó</h3><p>Kennslubækur í píanóleik frá Tónlistarlandi.</p></div>
       <div class="soon"><span class="eyebrow">Væntanlegt</span><h3>Nótnabók með lögunum</h3><p>Öll átta lögin úr bókinni í heild sinni.</p></div>
@@ -357,6 +387,27 @@ a,button,summary,.bar{touch-action:manipulation;-webkit-tap-highlight-color:tran
   <section class="view page" id="v-login" hidden>
     <div class="page-head"><span class="eyebrow">Lögin</span><h2>Lög og myndir úr bókinni Í Tónlistarlandi</h2></div>
     <ol class="songs" id="songList"></ol>
+    <div class="credits">
+      <h2>Flytjendur í lögum</h2>
+      <h3>Söngur og leikur</h3>
+      <ul class="cast">
+        <li><b>Valgerður Guðnadóttir</b><span>Mamma – frú Fjórðapartsnóta, amma – frú Hálfnóta með punkti, Hemíóla frænka, kór</span></li>
+        <li><b>Guðjón Davíð Karlsson (Gói)</b><span>Pabbi – herra Hálfnóta, afi – herra Heilnóta, Valdi, herra Fine, hundurinn Axel – e – Randó, kór</span></li>
+        <li><b>Gísli Magna Sigríðarson</b><span>Þórður þögn, herra Da Capo, kór og bakraddir</span></li>
+        <li><b>Særún Rúnudóttir</b><span>Tí tvíburi, kór og bakraddir</span></li>
+        <li><b>Kristín Sigurðardóttir</b><span>Þyrí þögn, kór og bakraddir</span></li>
+        <li><b>Lilja Eggertsdóttir</b><span>Ti tvíburi, Þrúða þögn, kór og bakraddir</span></li>
+      </ul>
+      <h3>Hljómsveit</h3>
+      <ul class="band">
+        <li><b>Gunnar Gunnarsson</b> píanó</li>
+        <li><b>Þorgrímur Jónsson</b> kontrabassi</li>
+        <li><b>Erik Qvick</b> trommur</li>
+        <li><b>Snorri Sigurðarson</b> trompet</li>
+        <li><b>Anna Hugadóttir</b> fiðla og víóla</li>
+      </ul>
+      <p class="note">Lög og útsetningar: Lilja Eggertsdóttir.</p>
+    </div>
   </section>
 
   <!-- EITT LAG: síðan sem QR-kóðinn opnar -->
@@ -370,12 +421,13 @@ a,button,summary,.bar{touch-action:manipulation;-webkit-tap-highlight-color:tran
   <!-- HÖFUNDUR -->
   <section class="view page" id="v-hofundur" hidden>
     <div class="about">
-      <img src="img/lilja.jpg" alt="Lilja Eggertsdóttir" width="800" height="800">
+      <img src="img/lilja.jpg" alt="Lilja Eggertsdóttir" width="800" height="1000">
       <div class="stack">
         <span class="eyebrow">Höfundur</span>
         <h2>Lilja Eggertsdóttir</h2>
-        <p>Lilja hefur brallað ýmislegt en vinnur fyrst og fremst sem tónlistarkennari í Mosfellsbæ.</p>
-        <p>Hún skrifaði söguna, samdi lögin og skapaði persónurnar í <a href="#forsida">Í Tónlistarlandi</a>.</p>
+        <p>Lilja er menntuð í söng og píanóleik. Hún hefur brallað ýmislegt en vinnur fyrst og fremst sem píanókennari og meðleikari í Mosfellsbæ.</p>
+        <p>Hún hefur stjórnað kórum og útsett aðallega fyrir kór og strengi. Einnig stofnaði hún tónleikaröðina Á ljúfum nótum í Fríkirkjunni.</p>
+        <p><a href="#forsida">Í Tónlistarlandi</a> er fyrsta bók Lilju.</p>
         <p class="note">Tónlistarland sf., Mosfellsbæ.<br>Netfang: <span style="user-select:all">tonlistarland@gmail.com</span></p>
         <a class="btn alt" style="align-self:flex-start" href="https://www.facebook.com/profile.php?id=100086174298306" target="_blank" rel="noopener">Tónlistarland á Facebook</a>
       </div>
