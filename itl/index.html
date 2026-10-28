@@ -82,6 +82,7 @@ nav.tabs .home-tab{gap:6px}
 .dd-panel a{display:flex;gap:10px;align-items:center;padding:7px 10px;border-radius:10px;text-decoration:none;color:var(--ink);font-weight:500}
 .dd-panel a:hover{background:var(--card)}
 .dd-panel a b{width:28px;height:28px;border-radius:50%;background:var(--c);color:var(--on-color);display:inline-flex;align-items:center;justify-content:center;font:800 .95rem var(--display);flex:none}
+.dd-panel .all2{font-weight:600;color:var(--blue)}
 .dd-panel .all{border-top:1px solid var(--line);margin-top:4px;padding-top:10px;font-weight:600;color:var(--blue)}
 .mini img{height:54px;width:auto;display:block}
 
@@ -127,12 +128,27 @@ section[hidden],.view[hidden]{display:none!important}
 .qty button{width:44px;height:44px;border:0;background:var(--card);color:var(--ink);font:800 1.3rem var(--display);cursor:pointer}
 .qty output{min-width:44px;text-align:center;font:800 1.2rem var(--display);font-variant-numeric:tabular-nums}
 .note{font-size:.92rem;color:var(--ink-soft)}
+.shelf{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.book-card{display:flex;flex-direction:column;gap:8px;text-decoration:none;color:var(--ink);background:var(--card);border-radius:22px;padding:14px 14px 18px;transition:transform .15s}
+.book-card:hover{transform:translateY(-3px)}
+.book-card > img,.book-card .ph-cover{width:100%;aspect-ratio:600/421;object-fit:cover;border-radius:14px;display:block;margin-bottom:6px}
+.book-card .tag-new,.book-card .tag-soon{align-self:flex-start}
+.book-card h3{font-size:1.35rem;margin:0}
+.book-card p{margin:0;color:var(--ink-soft);font-size:.95rem}
+.book-card .more{margin-top:auto;padding-top:6px;font-weight:700;color:var(--blue)}
+.ph-cover{aspect-ratio:600/421;border-radius:16px;background:linear-gradient(160deg,color-mix(in srgb,var(--c) 22%,#fff),color-mix(in srgb,var(--c) 45%,#fff));display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.ph-cover img{width:38%!important;height:auto;box-shadow:none!important;border-radius:0!important;opacity:.9}
+.ph-cover span{font:700 1rem var(--display);color:#1d2b45;opacity:.75}
+.tag-soon{display:inline-block;font:700 .85rem var(--body);padding:4px 12px;border-radius:999px;border:2px dashed var(--line);color:var(--ink-soft)}
+.back{display:inline-block;margin-bottom:18px;font-weight:600;color:var(--blue);text-decoration:none}
+.book-title{font-size:clamp(1.9rem,4vw,2.4rem);margin:0;line-height:1.1}
+.more-link{margin-top:28px;font-weight:700}
 .people{margin-top:44px;background:var(--card);border-radius:22px;padding:22px 24px}
 .people h3,.credits h3{font-size:1.35rem;margin:0 0 12px}
 .people dl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 28px;margin:0 0 12px}
 .people dt{font-size:.85rem;color:var(--ink-soft);font-weight:600}
 .people dd{margin:2px 0 0;font-weight:600}
-.credits{margin-top:48px;background:var(--card);border-radius:22px;padding:24px 26px}
+.credits{margin-top:0;background:var(--card);border-radius:22px;padding:24px 26px}
 .credits h2{font-size:1.7rem;margin:0 0 18px}
 .credits h3{margin-top:22px}
 .cast,.band{list-style:none;margin:0;padding:0;display:grid;gap:12px 28px;grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -225,7 +241,7 @@ footer .wrap{align-items:center}
   .author{grid-template-columns:84px 1fr;gap:16px;padding:14px 16px}
   .about img{max-width:240px}
   .soon-grid{grid-template-columns:1fr}
-  .people dl,.cast,.band{grid-template-columns:1fr}
+  .people dl,.cast,.band,.shelf{grid-template-columns:1fr}
   .people,.credits{padding:18px 18px}
 }
 @media (max-width:560px){
@@ -328,7 +344,7 @@ a,button,summary,.bar{touch-action:manipulation;-webkit-tap-highlight-color:tran
         <p>Hentar einkum börnum í 1. til 4. bekk. Átta lög fylgja bókinni.</p>
         <p class="note"><strong>Kemur út í lok nóvember 2026.</strong></p>
         <div class="cta">
-          <a class="btn" href="#vorur">Kaupa bókina</a>
+          <a class="btn" href="#bok-itl">Um bókina</a>
           <a class="btn alt" href="#login">Hlusta á lögin</a>
         </div>
       </div>
@@ -344,19 +360,46 @@ a,button,summary,.bar{touch-action:manipulation;-webkit-tap-highlight-color:tran
     </div>
   </section>
 
-  <!-- VÖRUR -->
+  <!-- VÖRUR: yfirlit -->
   <section class="view page" id="v-vorur" hidden>
     <div class="page-head"><span class="eyebrow">Vörur</span><h2>Bækur frá Tónlistarlandi</h2></div>
+    <div class="shelf">
+      <a class="book-card" href="#bok-itl">
+        <img src="img/kapa-small.jpg" alt="Kápa bókarinnar Í Tónlistarlandi" width="600" height="421">
+        <span class="tag-new">Ný bók</span>
+        <h3>Í Tónlistarlandi</h3>
+        <p>Fyndin og fræðandi saga með átta lögum. Kemur út í lok nóvember 2026.</p>
+        <span class="more">Nánar →</span>
+      </a>
+      <a class="book-card" href="#bok-piano">
+        <div class="ph-cover" style="--c:var(--teal)"><img src="img/logo-litid.png" alt="" width="251" height="180"></div>
+        <span class="tag-soon">Væntanlegt</span>
+        <h3>Lærum að spila á píanó</h3>
+        <p>Kennslubækur í píanóleik frá Tónlistarlandi.</p>
+        <span class="more">Nánar →</span>
+      </a>
+      <a class="book-card" href="#bok-notur">
+        <div class="ph-cover" style="--c:var(--purple)"><img src="img/logo-litid.png" alt="" width="251" height="180"></div>
+        <span class="tag-soon">Væntanlegt</span>
+        <h3>Nótnabók með lögunum</h3>
+        <p>Öll átta lögin úr Í Tónlistarlandi í heild sinni.</p>
+        <span class="more">Nánar →</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- VÖRUR: Í Tónlistarlandi -->
+  <section class="view page" id="v-bok-itl" hidden>
+    <a class="back" href="#vorur">← Allar bækur</a>
     <article class="product">
       <img src="img/kapa-small.jpg" alt="Kápa bókarinnar Í Tónlistarlandi" width="600" height="421">
       <div class="stack">
-        <span class="tag-new">Ný bók</span>
-        <h3 style="font-size:2rem">Í Tónlistarlandi</h3>
+        <h1 class="book-title">Í Tónlistarlandi</h1>
+        <span class="tag-new" style="align-self:flex-start">Ný bók · kemur út í lok nóvember 2026</span>
         <p><strong>Fyndin og fræðandi í senn!</strong></p>
-        <p>Í Tónlistarlandi er saga sem segir frá tvíburunum Ti Tí, Hemíólu frænku, frú Fjórðapartsnótu (mömmu), herra Hálfnótu (pabba), afa Heilnótu, Þyrí þögn og Þorra þögn og fleiri skemmtilegum karakterum. Markmiðið er að styrkja stærðfræði- og tónfræðivitund barna með skemmtanagildið að leiðarljósi. Til verður ævintýraheimur úr tónfræðinni og persónurnar eru skapaðar úr fræðiheitum.</p>
+        <p>Í Tónlistarlandi er saga sem segir frá tvíburunum Ti Tí, Hemíólu frænku, frú Fjórðapartsnótu (mömmu), herra Hálfnótu (pabba), afa Heilnótu, Þyrí þögn og Þórði þögn og fleiri skemmtilegum karakterum. Markmiðið er að styrkja stærðfræði- og tónfræðivitund barna með skemmtanagildið að leiðarljósi. Til verður ævintýraheimur úr tónfræðinni og persónurnar eru skapaðar úr fræðiheitum.</p>
         <p>Bókin er bæði fyndin og fræðandi og ætti því að henta ungum sem öldnum, en mun líklega vekja mestan áhuga hjá börnum á fyrsta grunnskólastigi (1. til 4. bekk). Á hverri opnu má finna lítinn fróðleiksmola fyrir þá sem vilja fræðast.</p>
         <p>Átta lög fylgja bókinni og hægt er að hlýða á þau með því að skanna QR-kóða þegar lesið er.</p>
-        <p><strong>Kemur út í lok nóvember 2026.</strong></p>
         <span style="font:800 1.6rem var(--display);color:var(--red)"><span class="ph">Verð</span></span>
         <div class="buy">
           <div class="qty" role="group" aria-label="Fjöldi">
@@ -366,7 +409,7 @@ a,button,summary,.bar{touch-action:manipulation;-webkit-tap-highlight-color:tran
           </div>
           <button class="btn yel" type="button" disabled>Kaupa bók</button>
         </div>
-        <p class="note">Vefverslunin opnar fljótlega. Bókin fæst einnig í völdum bókabúðum, sem verða auglýstar hér.</p>
+        <p class="note">Vefverslunin opnar fljótlega. Bókin fæst einnig í völdum bókabúðum.</p>
       </div>
     </article>
     <div class="people">
@@ -375,24 +418,44 @@ a,button,summary,.bar{touch-action:manipulation;-webkit-tap-highlight-color:tran
         <div><dt>Handrit, lög, útsetningar og myndskreytingar</dt><dd>Lilja Eggertsdóttir</dd></div>
         <div><dt>Uppsetning og hönnun</dt><dd>Þóra Dögg Jónsdóttir, grafískur hönnuður<br>Guðlaugur Ingi Harðarson, grafískur miðlari</dd></div>
       </dl>
-      <p class="note">Flytjendur laganna eru taldir upp á síðunni <a href="#login">Lögin</a>.</p>
-    </div>
-    <div class="soon-grid">
-      <div class="soon"><span class="eyebrow">Væntanlegt</span><h3>Lærum að spila á píanó</h3><p>Kennslubækur í píanóleik frá Tónlistarlandi.</p></div>
-      <div class="soon"><span class="eyebrow">Væntanlegt</span><h3>Nótnabók með lögunum</h3><p>Öll átta lögin úr bókinni í heild sinni.</p></div>
+      <p class="note">Sjá einnig <a href="#flytjendur">flytjendur í lögunum</a>.</p>
     </div>
   </section>
 
-  <!-- LÖGIN: öll lögin -->
-  <section class="view page" id="v-login" hidden>
-    <div class="page-head"><span class="eyebrow">Lögin</span><h2>Lög og myndir úr bókinni Í Tónlistarlandi</h2></div>
-    <ol class="songs" id="songList"></ol>
+  <!-- VÖRUR: væntanlegar bækur -->
+  <section class="view page" id="v-bok-piano" hidden>
+    <a class="back" href="#vorur">← Allar bækur</a>
+    <article class="product">
+      <div class="ph-cover" style="--c:var(--teal)"><img src="img/logo-litid.png" alt="" width="251" height="180"></div>
+      <div class="stack">
+        <h1 class="book-title">Lærum að spila á píanó</h1>
+        <span class="tag-soon" style="align-self:flex-start">Væntanlegt</span>
+        <p>Kennslubækur í píanóleik frá Tónlistarlandi.</p>
+        <p class="note">Nánari upplýsingar koma hér síðar.</p>
+      </div>
+    </article>
+  </section>
+  <section class="view page" id="v-bok-notur" hidden>
+    <a class="back" href="#vorur">← Allar bækur</a>
+    <article class="product">
+      <div class="ph-cover" style="--c:var(--purple)"><img src="img/logo-litid.png" alt="" width="251" height="180"></div>
+      <div class="stack">
+        <h1 class="book-title">Nótnabók með lögunum</h1>
+        <span class="tag-soon" style="align-self:flex-start">Væntanlegt</span>
+        <p>Öll átta lögin úr bókinni Í Tónlistarlandi í heild sinni.</p>
+        <p class="note">Nánari upplýsingar koma hér síðar.</p>
+      </div>
+    </article>
+  </section>
+
+  <!-- FLYTJENDUR -->
+  <section class="view page" id="v-flytjendur" hidden>
+    <div class="page-head"><span class="eyebrow">Lögin</span><h2>Flytjendur í lögum</h2></div>
     <div class="credits">
-      <h2>Flytjendur í lögum</h2>
-      <h3>Söngur og leikur</h3>
+            <h3>Söngur og leikur</h3>
       <ul class="cast">
         <li><b>Valgerður Guðnadóttir</b><span>Mamma – frú Fjórðapartsnóta, amma – frú Hálfnóta með punkti, Hemíóla frænka, kór</span></li>
-        <li><b>Guðjón Davíð Karlsson (Gói)</b><span>Pabbi – herra Hálfnóta, afi – herra Heilnóta, Valdi, herra Fine, hundurinn Axel – e – Randó, kór</span></li>
+        <li><b>Guðjón Davíð Karlsson (Gói)</b><span>Pabbi – herra Hálfnóta, afi – herra Heilnóta, Valdi, herra Fine, hundurinn Axel-e-randó, kór</span></li>
         <li><b>Gísli Magna Sigríðarson</b><span>Þórður þögn, herra Da Capo, kór og bakraddir</span></li>
         <li><b>Særún Rúnudóttir</b><span>Tí tvíburi, kór og bakraddir</span></li>
         <li><b>Kristín Sigurðardóttir</b><span>Þyrí þögn, kór og bakraddir</span></li>
@@ -408,6 +471,13 @@ a,button,summary,.bar{touch-action:manipulation;-webkit-tap-highlight-color:tran
       </ul>
       <p class="note">Lög og útsetningar: Lilja Eggertsdóttir.</p>
     </div>
+  </section>
+
+  <!-- LÖGIN: öll lögin -->
+  <section class="view page" id="v-login" hidden>
+    <div class="page-head"><span class="eyebrow">Lögin</span><h2>Lög og myndir úr bókinni Í Tónlistarlandi</h2></div>
+    <ol class="songs" id="songList"></ol>
+    <p class="more-link"><a href="#flytjendur">Flytjendur í lögunum →</a></p>
   </section>
 
   <!-- EITT LAG: síðan sem QR-kóðinn opnar -->
@@ -465,7 +535,7 @@ const numHTML=(i,s,cls="num")=>`<span class="${cls}${dark(s.c)?' dark':''}" styl
 
 document.getElementById("ddPanel").innerHTML=SONGS.map((s,i)=>
   `<a href="#${i+1}" style="--c:${col(s.c)}"><b${dark(s.c)?' style="color:#1d2b45"':''}>${i+1}</b>${s.t}</a>`).join("")+
-  `<a class="all" href="#login">Öll lögin á einni síðu</a>`;
+  `<a class="all" href="#login">Öll lögin á einni síðu</a><a class="all2" href="#flytjendur">Flytjendur</a>`;
 
 // Spilari. Aðeins eitt lag spilar í einu.
 const players=new Set();
@@ -575,12 +645,15 @@ document.getElementById("qPlus").onclick=()=>{q=Math.min(20,q+1);qo.textContent=
 document.querySelectorAll(".rb").forEach(el=>{el.setAttribute("aria-label",el.textContent);el.innerHTML=[...el.textContent].map(ch=>`<span aria-hidden="true">${ch}</span>`).join("")});
 
 // Leiðsögn. Á tonlistarland.is eru hreinar slóðir (/itl/1, /vorur …); í forskoðun eru notuð #-merki.
-const views=["forsida","vorur","login","hofundur"];
+const views=["forsida","vorur","login","hofundur","flytjendur","bok-itl","bok-piano","bok-notur"];
 const PATHS=!!document.querySelector('base[href="/"]');
-const pathFor=id=>({forsida:"/",vorur:"/vorur",login:"/itl",hofundur:"/hofundur"})[id]||("/itl/"+id);
+const ROUTES={forsida:"/",vorur:"/vorur",login:"/itl",hofundur:"/hofundur",flytjendur:"/itl/flytjendur","bok-itl":"/vorur/i-tonlistarlandi","bok-piano":"/vorur/piano","bok-notur":"/vorur/notnabok"};
+const TITLES={vorur:"Vörur",login:"Lögin",hofundur:"Um höfundinn",flytjendur:"Flytjendur","bok-itl":"Í Tónlistarlandi","bok-piano":"Lærum að spila á píanó","bok-notur":"Nótnabók með lögunum"};
+const pathFor=id=>ROUTES[id]||("/itl/"+id);
 const idFromPath=p=>{ p=p.replace(/\/+$/,"").toLowerCase()||"/";
   const m=p.match(/^\/itl(?:\/([1-8]))?$/); if(m) return m[1]||"login";
-  return ({"/":"forsida","/vorur":"vorur","/hofundur":"hofundur"})[p]||"forsida" };
+  for(const k in ROUTES) if(ROUTES[k]===p) return k;
+  return "forsida" };
 /* Tenglar eru skrifaðir sem #id í kóðanum; hér fá þeir rétta slóð og data-r merkingu */
 function fixLinks(root){ root.querySelectorAll('a[href^="#"]').forEach(a=>{ const id=a.getAttribute("href").slice(1); if(!id) return; a.dataset.r=id; if(PATHS) a.setAttribute("href",pathFor(id)) }) }
 fixLinks(document);
@@ -591,7 +664,7 @@ function route(){
   let id=location.hash.slice(1);
   if(PATHS){
     /* Gamlir #-tenglar (t.d. eldri QR-kóðar) fá hreina slóð */
-    if(/^([1-8]|forsida|vorur|login|hofundur)$/.test(id)) history.replaceState(null,"",pathFor(id));
+    if(/^[1-8]$/.test(id)||views.includes(id)) history.replaceState(null,"",pathFor(id));
     id=idFromPath(location.pathname);
   } else if(!id) id="forsida";
   const n=/^[1-8]$/.test(id)?+id:0;
@@ -610,9 +683,10 @@ function route(){
     p.setAttribute("aria-label","Fyrra lag: "+SONGS[pn-1].t); x.setAttribute("aria-label","Næsta lag: "+SONGS[nn-1].t);
     fixLinks(document.querySelector(".song-nav"));
     document.title=s.t+" – Tónlistarland";
-  } else { document.getElementById("v-"+id).hidden=false; document.title="Tónlistarland" }
-  document.querySelectorAll(".tab").forEach(a=>a.dataset.r===id?a.setAttribute("aria-current","page"):a.removeAttribute("aria-current"));
-  dd.classList.toggle("cur",!!n||id==="login"); dd.open=false;
+  } else { document.getElementById("v-"+id).hidden=false; document.title=TITLES[id]?TITLES[id]+" – Tónlistarland":"Tónlistarland" }
+  const tabId=id.startsWith("bok-")?"vorur":id;
+  document.querySelectorAll(".tab").forEach(a=>a.dataset.r===tabId?a.setAttribute("aria-current","page"):a.removeAttribute("aria-current"));
+  dd.classList.toggle("cur",!!n||id==="login"||id==="flytjendur"); dd.open=false;
   /* Sími á hlið: spilarinn birtist strax í heild sinni */
   if(n && matchMedia("(orientation:landscape) and (max-height:560px)").matches) requestAnimationFrame(()=>document.getElementById("sPlayer").scrollIntoView({block:"start"}));
   else window.scrollTo(0,0);
