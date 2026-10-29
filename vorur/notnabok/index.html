@@ -151,6 +151,7 @@ section[hidden],.view[hidden]{display:none!important}
 .credits{margin-top:0;background:var(--card);border-radius:22px;padding:24px 26px}
 .credits h2{font-size:1.7rem;margin:0 0 18px}
 .credits h3{margin-top:22px}
+.credits ul + h3{margin-top:46px}
 .cast,.band{list-style:none;margin:0;padding:0;display:grid;gap:12px 28px;grid-template-columns:repeat(2,minmax(0,1fr))}
 .cast li{display:flex;flex-direction:column;gap:2px}
 .cast b,.band b{font-weight:700}
@@ -279,7 +280,10 @@ a,button,summary,.bar{touch-action:manipulation;-webkit-tap-highlight-color:tran
   .dd-panel a b{width:34px;height:34px;font-size:1.1rem}
 }
 /* Sími: spilarinn nær út að brúnum svo myndirnar verði sem stærstar */
+html,body{overflow-x:clip}
 @media (max-width:600px){
+  .dd{position:static}
+  .dd-panel{position:fixed;left:max(16px,env(safe-area-inset-left,0px));right:max(16px,env(safe-area-inset-right,0px));width:auto;top:calc(env(safe-area-inset-top,0px) + 80px);max-height:calc(100svh - env(safe-area-inset-top,0px) - 96px);overflow-y:auto;overscroll-behavior:contain}
   body{font-size:17px}
   .song-page{padding-top:10px}
   .song-head{margin-bottom:10px;gap:10px}
@@ -699,6 +703,9 @@ document.addEventListener("click",e=>{
   if(location.pathname!==a.getAttribute("href")) history.pushState(null,"",a.getAttribute("href"));
   route();
 });
+/* Í síma: valmyndin birtist beint undir hausnum, innan skjásins */
+dd.addEventListener("toggle",()=>{ if(!dd.open) return; const pnl=document.getElementById("ddPanel"); if(getComputedStyle(pnl).position!=="fixed"){pnl.style.top="";pnl.style.maxHeight="";return}
+  const t=topEl.getBoundingClientRect().bottom+8; pnl.style.top=t+"px"; pnl.style.maxHeight=(innerHeight-t-16)+"px" });
 addEventListener("popstate",route);
 addEventListener("hashchange",route);
 route();
